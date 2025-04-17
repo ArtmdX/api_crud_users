@@ -6,12 +6,12 @@ import { CreateUserDto } from './DTO/CreateUser.dto';
 import { UpdateUserDto } from './DTO/UpdateUser.dto';
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async create(dto: CreateUserDto): Promise<any> {
     const user = await new this.userModel(dto).save();
-    return this.userModel.findById(user._id).lean(); // garante retorno plano com id
+    return this.userModel.findById(user._id).lean(); 
   }
 
   async findAll(): Promise<any[]> {
