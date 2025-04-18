@@ -25,8 +25,15 @@ export class UsersController {
 
   @Get()
   async findAll() {
-    const users = await this.userService.findAll();
-    return users.map((user) => plainToInstance(User, user));
+    try {
+      const users = await this.userService.findAll();
+      if (Array.isArray(users)) {
+        return users.map((user) => plainToInstance(User, user));
+      }
+      throw new Error('Failed to retrieve users');
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   @Get(':id')
@@ -43,6 +50,6 @@ export class UsersController {
 
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<void> {
-    return this.userService.remove(id);
+    this.userService.remove(id);
   }
 }
